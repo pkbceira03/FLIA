@@ -4,36 +4,34 @@
     (domain LIGHTSOUTRGB)
     (:requirements)
     (:types 
-        position)
+        line cloumn - position)
     (:predicates
-        (white ?x ?y - position)
-        (red ?x ?y - position)
-        (green ?x ?y - position)
-        (blue ?x ?y - position))
+        (white ?x -line ?y - column)
+        (red ?x -line ?y - column)
+        (green ?x -line ?y - column)
+        (blue ?x -line ?y - column))
     (:action CLICK
-        :parameters(?x ?y - position)
+        :parameters(?x -line ?y - column)
         :precondition(and)
         :effect(and
-            (when (white ?x ?y) (and (not(white ?x ?y)) (red ?x ?y)))
-            (when (red ?x ?y) (and (not(red ?x ?y)) (green ?x ?y)))
-            (when (green ?x ?y) (and (not(green ?x ?y)) (blue ?x ?y)))
-            (when (blue ?x ?y) (and (not(blue ?x ?y)) (white ?x ?y)))
-            (forall (?w - position)(and
-                (when(= ?w ?x) (and
-                    (when (white ?x ?y) (and (not(white ?x ?y)) (red ?x ?y)))
-                    (when (red ?x ?y) (and (not(red ?x ?y)) (green ?x ?y)))
-                    (when (green ?x ?y) (and (not(green ?x ?y)) (blue ?x ?y)))
-                    (when (blue ?x ?y) (and (not(blue ?x ?y)) (white ?x ?y)))))
-                    (forall (?q - position)
-                        (when(= ?q ?y) (and
-                        (when (white ?x ?y) (and (not(white ?x ?y)) (red ?x ?y)))
-                        (when (red ?x ?y) (and (not(red ?x ?y)) (green ?x ?y)))
-                        (when (green ?x ?y) (and (not(green ?x ?y)) (blue ?x ?y)))
-                        (when (blue ?x ?y) (and (not(blue ?x ?y)) (white ?x ?y)))
-                        ))
-                    )
-                )
+            (forall (?w - line)(and
+                (forall (?q - column)(and
+                    (when (= ?w ?x)(and
+                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                    ))
+                    (when (= ?q ?y)(and
+                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                    ))
+                        
+                )))
             )
         )
     )
 )
+
