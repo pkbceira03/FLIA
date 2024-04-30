@@ -1,6 +1,8 @@
-(define (problem LIGHTSOUTRBG)
-    (:domain LIGHTSOUTRBG)
-    (:objects x1 x2 x3 y1 y2 y3 - posicao)
+; Problem
+
+(define (problem LIGHTSOUTRGB)
+    (:domain LIGHTSOUTRGB)
+    (:objects x1 x2 x3 y1 y2 y3 - position)
     (:init
         (branco x1 y1)
         (azul x1 y2)
@@ -12,7 +14,7 @@
         (azul x3 y2)
         (branco x3 y3)
     )
-    (:goal
+    (:goal (and
         (branco x1 y1)
         (branco x1 y2)
         (branco x1 y3)
@@ -21,6 +23,6 @@
         (branco x2 y3)
         (branco x3 y1)
         (branco x3 y2)
-        (branco x3 y3)
+        (branco x3 y3))
     )
 )
