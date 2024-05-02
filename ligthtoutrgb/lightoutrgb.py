@@ -39,7 +39,7 @@ with open ("arquivoProblem", "w") as file:
         # porque as entradas não tem espaço 
         #temos que conseguir dividir
         for j, elemento in enumerate(linha):
-            file.write(f"\t\tY{j} - line ", end="")
+            file.write(f"\ttY{j} - line ", end="")
         
     #fecha init
     file.write(")")

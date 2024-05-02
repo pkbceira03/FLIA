@@ -23,21 +23,100 @@
             (forall (?w - line)(and
                 (forall (?q - column)(and
                     (when (= ?w ?x)(and
-                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
-                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
-                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
-                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                        (when (normal ?x ?y)(and
+                            (when (or(normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
+                        (when (at-click ?x ?y)(and
+                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+
+                            
+                        ))
+                        (when (on-click ?x ?y)(and
+                            (when (and(not(= ?x ?w)) (not(= ?y ?q)))(and
+                                (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                                    (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                    (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                    (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                    (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                                ))
+                            ))
+                        ))
+                        (when (vertical ?x ?y)(and
+                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
+                        (when (horizontal ?x ?y)(and
+                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
                     ))
                     (when (= ?q ?y)(and
-                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
-                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
-                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
-                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                        (when (normal ?x ?y)(and
+                            (when (or(normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
+                        (when (at-click ?x ?y)(and
+                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
+                        (when (on-click ?x ?y)(and
+                            (when (and(not(= ?x ?w)) (not(= ?y ?q)))(and
+                                (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                                    (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                    (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                    (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                    (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                                ))
+                            ))
+                        ))
+                        (when (vertical ?x ?y)(and
+                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
+                        (when (horizontal ?x ?y)(and
+                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q)))
+                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q)))
+                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q)))
+                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q)))
+                            ))
+                        ))
                     ))
+                ))
                         
-                )))
-            )
-        )
+        )))
     )
 )
+    
+
 
