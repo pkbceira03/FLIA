@@ -95,8 +95,8 @@ def process_output(output):
 def main():
     matrix = read_matrix_from_input()
     create_problem(matrix)
-    domain_file = 'C:/Users/marce/Documents/Learning/Lighsout/FLIA/ligthtoutrgb/domain.pddl'
-    problem_file = 'C:/Users/marce/Documents/Learning/Lighsout/FLIA/ligthtoutrgb/problem.pddl'
+    domain_file = '/ligthtoutrgb/domain.pddl'
+    problem_file = 'ligthtoutrgb/problemLO.pddl'
     result = call_planner(domain_file, problem_file)
     processed_output = process_output(result)
     print(processed_output)
