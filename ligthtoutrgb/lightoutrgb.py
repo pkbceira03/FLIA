@@ -72,7 +72,7 @@ def create_problem(matrix):
                 file.write(f"\n\t\t(white x{x} y{y})")
         file.write(")\n\t)\n)")
 
-def call_madagascar_planner(domain_file, problem_file):
+def call_planner(domain_file, problem_file):
     planner_path = '/tmp/dir/software/planners/madagascar/M'
     command = f'{planner_path} {domain_file} {problem_file}'
     try:
@@ -82,15 +82,24 @@ def call_madagascar_planner(domain_file, problem_file):
         print(f"Erro ao chamar o planejador Madagascar: {e.stderr}")
         return None
 
+def process_output(output):
+    processed_output = ""
+    click_list = output.strip().split("\n")
+    for click in click_list:
+        click_parts = click.split()
+        x = int(click_parts[1][1])
+        y = int(click_parts[2][1])
+        processed_output += f"(click {x} {y});"
+    return processed_output[:-1]
+
 def main():
     matrix = read_matrix_from_input()
     create_problem(matrix)
     domain_file = 'C:/Users/marce/Documents/Learning/Lighsout/FLIA/ligthtoutrgb/domain.pddl'
     problem_file = 'C:/Users/marce/Documents/Learning/Lighsout/FLIA/ligthtoutrgb/problem.pddl'
-    # Chamando o planejador Madagascar
-    result_madagascar = call_madagascar_planner(domain_file, problem_file)
-    print("Resultado do planejador Madagascar:")
-    print(result_madagascar)
+    result = call_planner(domain_file, problem_file)
+    processed_output = process_output(result)
+    print(processed_output)
 
 
 if __name__ == "__main__":
