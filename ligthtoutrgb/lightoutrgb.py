@@ -18,6 +18,7 @@ def read_matrix_from_input():
 def create_problem(matrix):
     with open ("problemLO.pddl", "w") as file:
         #Header
+        file.write("; Problem\n\n")
         file.write("(define\n\t(problem LIGHTSOUTRGB)\n\t(:domain LIGHTSOUTRGB)\n\t(:objects")
         
         #lines
@@ -37,7 +38,7 @@ def create_problem(matrix):
         file.write(" - column)")
         
         #init
-        file.write("\n\t(:init\n\t")
+        file.write("\n\t(:init")
         color_map = {
             'W': 'white',
             'R': 'red',
@@ -48,12 +49,12 @@ def create_problem(matrix):
         for x, row in enumerate(matrix):
             for y, cell in enumerate(row):
                 color = color_map[cell[1]]
-                file.write(f"({color} x{x} y{y})\n\t")
+                file.write(f"\n\t\t({color} x{x} y{y})")
         
         type_map = {
             '-': 'normal',
-            '|': 'vertical',
-            '_': 'horizontal',
+            '|': 'horizontal',
+            '_': 'vertical',
             '*': 'on-click',
             '#': 'at-click'
         }
@@ -61,14 +62,14 @@ def create_problem(matrix):
         for x, row in enumerate(matrix):
             for y, cell in enumerate(row):
                 cell_type = type_map[cell[0]]
-                file.write(f"({cell_type} x{x} y{y})\n\t")
-        file.write(")\n\t")
+                file.write(f"\n\t\t({cell_type} x{x} y{y})")
+        file.write("\n\t)\n\t")
  
         #goal
-        file.write("(:goal (and\n\t\t")
+        file.write("(:goal (and")
         for x, row in enumerate(matrix):
             for y, cell in enumerate(row):
-                file.write(f"(white x{x} y{y})\n\t\t")
+                file.write(f"\n\t\t(white x{x} y{y})")
         file.write(")\n\t)\n)")
 
 def call_madagascar_planner(domain_file, problem_file):
