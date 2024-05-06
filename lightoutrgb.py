@@ -15,6 +15,11 @@ def read_matrix_from_input():
         matrix.append(lin)
     return matrix
 
+def create_domain():
+    with open ("domainLO.pddl", "w") as file:
+        file.write("; Domain\n\n")
+        file.write("(define\n\t(domain LIGHTSOUTRGB)\n\t(:requirements)\n\t(:types\n\t\tline column - position)")
+
 def create_problem(matrix):
     with open ("problemLO.pddl", "w") as file:
         #Header
@@ -94,6 +99,7 @@ def process_output(output):
 
 def main():
     matrix = read_matrix_from_input()
+    create_domain()
     create_problem(matrix)
     domain_file = '/ligthtoutrgb/domain.pddl'
     problem_file = 'ligthtoutrgb/problemLO.pddl'
