@@ -201,7 +201,7 @@ def create_problem(matrix):
 
 def call_planner(domain_file, problem_file):
     planner_path = '/tmp/dir/software/planners/madagascar/M'
-    command = f'{planner_path} {domain_file} {problem_file}'
+    command = f'{planner_path} -Q -o out {domain_file} {problem_file}'
     try:
         result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
         return result.stdout
@@ -210,24 +210,39 @@ def call_planner(domain_file, problem_file):
         return None
 
 def process_output(output):
-    processed_output = ""
-    click_list = output.strip().split("\n")
-    for click in click_list:
-        click_parts = click.split()
-        x = int(click_parts[1][1])
-        y = int(click_parts[2][1])
-        processed_output += f"(click {x} {y});"
-    return processed_output[:-1]
+    with open ("out",  "r") as file:
+        lines = file.readlines()
+        click= []
+        for line in lines:
+            parts = line.split()
+            # print(parts)
+            x = parts[3].replace("x", "")
+            y = parts[4].replace("y", "")
+            y = y.replace(")", "")
+            click.append(f"(click {x} {y})")
+        
+        formatted_output = ";".join(click)
+        print(formatted_output)
+    
+
+    # processed_output = ""
+    # click_list = output.strip().split("\n")
+    # for click in click_list:
+    #     click_parts = click.split()
+    #     x = int(click_parts[1][1])
+    #     y = int(click_parts[2][1])
+    #     processed_output += f"(click {x} {y});"
+    # return processed_output[:-1]
 
 def main():
     matrix = read_matrix_from_input()
     create_domain()
     create_problem(matrix)
-    domain_file = '/ligthtoutrgb/domain.pddl'
-    problem_file = 'ligthtoutrgb/problemLO.pddl'
+    domain_file = 'domainLO.pddl'
+    problem_file = 'problemLO.pddl'
     result = call_planner(domain_file, problem_file)
     processed_output = process_output(result)
-    print(processed_output)
+    # print(processed_output)
 
 
 if __name__ == "__main__":
