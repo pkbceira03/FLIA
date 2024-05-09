@@ -4,15 +4,12 @@ import os
 
 def read_matrix_from_input():
     matrix = []
-    for line in sys.stdin:
-        line = line.strip() 
-        if not line:
+    while True:
+        line = input().strip()
+        if not line or line == 'EOF':
             break
-        row = list(line.split())
-        lin = []
-        for e in range(0, len(row[0]), 2):
-            lin.append(row[0][e:e+2])
-        matrix.append(lin)
+        row = [line[i:i+2] for i in range(0, len(line), 2)]
+        matrix.append(row)
     return matrix
 
 def create_domain():
@@ -199,14 +196,24 @@ def create_problem(matrix):
                 file.write(f"\n\t\t(white x{x} y{y})")
         file.write(")\n\t)\n)")
 
-def call_planner(domain_file, problem_file):
-    planner_path = '/tmp/dir/software/planners/madagascar/M'
+def call_planner():
+    #MOJ
+    #planner_path = '/tmp/dir/software/planners/madagascar/M'
+    
+    #Chococino
+    planner_path = '/home/software/planners/madagascar/M'
+    
+    domain_file = 'domainLO.pddl'
+    problem_file = 'problemLO.pddl'
+    
     command = f'{planner_path} -Q -o out {domain_file} {problem_file}'
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True, timeout=29)
         return result.stdout
+    except subprocess.TimeoutExpired as e:
+        return exit(1)
     except subprocess.CalledProcessError as e:
-        print(f"Erro ao chamar o planejador Madagascar: {e.stderr}")
+        print(f"Erro ao chamar o planejador: {e.stderr}")
         return None
 
 def process_output(output):
@@ -223,26 +230,13 @@ def process_output(output):
         
         formatted_output = ";".join(click)
         print(formatted_output)
-    
-
-    # processed_output = ""
-    # click_list = output.strip().split("\n")
-    # for click in click_list:
-    #     click_parts = click.split()
-    #     x = int(click_parts[1][1])
-    #     y = int(click_parts[2][1])
-    #     processed_output += f"(click {x} {y});"
-    # return processed_output[:-1]
 
 def main():
     matrix = read_matrix_from_input()
     create_domain()
     create_problem(matrix)
-    domain_file = 'domainLO.pddl'
-    problem_file = 'problemLO.pddl'
-    result = call_planner(domain_file, problem_file)
-    processed_output = process_output(result)
-    # print(processed_output)
+    result = call_planner()
+    process_output(result)
 
 
 if __name__ == "__main__":
