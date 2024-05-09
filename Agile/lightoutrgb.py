@@ -33,108 +33,174 @@ def create_domain():
         (normal ?x - line ?y - column)
     )
     (:action CLICK
-        :parameters(?x -line ?y - column)
-        :precondition(and)
+        :parameters(?x - line ?y - column)
+        :precondition(normal ?x - line ?y - column)
         :effect(and
             (forall (?w - line)(and
                 (forall (?q - column)(and
                     (when (and (= ?x ?w) (= ?y ?q))(and
-                        (when (or (normal ?w ?q) (vertical?w ?q) (horizontal ?w ?q) (at-click ?w ?q) )(and
+                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        
+                    ))
+                    (when (and (= ?w ?x) (not(= ?q ?y))) (and
+                        (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
                             (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
                             (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
                             (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
                             (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
                         ))
                     ))
+                    (when (and (= ?q ?y) (not(= ?w ?x)))(and
+                        (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        ))
+                        
+                    ))
+                ))
+            ))
+        )
+    )
+
+    (:action CLICKV
+        :parameters(?x - line ?y - column)
+        :precondition(vertical ?x - line ?y - column)
+        :effect(and
+            (forall (?w - line)(and
+                (forall (?q - column)(and
+                    (when (and (= ?x ?w) (= ?y ?q))(and
+                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        
+                    ))
                     (when (and (= ?w ?x) (not(= ?q ?y))) (and
-                        (when (normal ?x ?y)(and
-                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
-                        ))
-                        (when (vertical ?x ?y)(and
-                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
-                        ))
-                        (when (horizontal ?x ?y)(and
-                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
-                        ))
-                        (when (on-click ?x ?y)(and
-                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q) )(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
-                        ))
-                        (when (at-click ?x ?y)(and
-                            (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
+                        (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
                         ))
                     ))
                     (when (and (= ?q ?y) (not(= ?w ?x)))(and
-                        (when (normal ?x ?y)(and
-                                (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
-                                    (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                    (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                    (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                    (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                                ))
+                        (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
                         ))
-                        (when (vertical ?x ?y)(and
-                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
-                        ))
-                        (when (horizontal ?x ?y)(and
-                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
-                        ))
-                        (when (on-click ?x ?y)(and
-                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q) )(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))  
-                        ))
-                        (when (at-click ?x ?y)(and
-                            (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
-                                (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
-                                (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
-                                (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
-                                (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
-                            ))
+                        
+                    ))
+                ))
+            ))
+        )
+    )
+
+    (:action CLICKH
+        :parameters(?x - line ?y - column)
+        :precondition(horizontal ?x - line ?y - column)
+        :effect(and
+            (forall (?w - line)(and
+                (forall (?q - column)(and
+                    (when (and (= ?x ?w) (= ?y ?q))(and
+                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        
+                    ))
+                    (when (and (= ?w ?x) (not(= ?q ?y))) (and
+                        (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
                         ))
                     ))
-    
+                    (when (and (= ?q ?y) (not(= ?w ?x)))(and
+                        (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        ))
+                        
+                    ))
                 ))
-            )))
+            ))
+        )
     )
-)                                       
+
+    (:action ATCLICK
+        :parameters(?x - line ?y - column)
+        :precondition(at-click ?x - line ?y - column)
+        :effect(and
+            (forall (?w - line)(and
+                (forall (?q - column)(and
+                    (when (and (= ?x ?w) (= ?y ?q))(and
+                        (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                        (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                        (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                        (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        
+                    ))
+                    (when (and (= ?w ?x) (not(= ?q ?y))) (and
+                        (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        ))
+                    ))
+                    (when (and (= ?q ?y) (not(= ?w ?x)))(and
+                        (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        ))
+                        
+                    ))
+                ))
+            ))
+        )
+    )
+
+    (:action ONCLICK
+        :parameters(?x -line ?y - column)
+        :precondition(on-click ?x - line ?y - column)
+        :effect(and
+            (forall (?w - line)(and
+                (forall (?q - column)(and
+                    (when (and (= ?w ?x) (not(= ?q ?y))) (and
+                        (when(or (normal ?w ?q) (vertical ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        ))
+                    ))
+                    (when (and (= ?q ?y) (not(= ?w ?x)))(and
+                        (when(or (normal ?w ?q) (horizontal ?w ?q) (on-click ?w ?q))(and
+                            (when (white ?w ?q) (and (not(white ?w ?q)) (red ?w ?q) ))
+                            (when (red ?w ?q) (and (not(red ?w ?q)) (green ?w ?q) ))
+                            (when (green ?w ?q) (and (not(green ?w ?q)) (blue ?w ?q) ))
+                            (when (blue ?w ?q) (and (not(blue ?w ?q)) (white ?w ?q) ))
+                        ))
+                        
+                    ))
+                ))
+            ))
+        )
+    )
+
+)                             
 """
     with open("domainLO.pddl", "w") as file:
         file.write(domain_text.strip())
