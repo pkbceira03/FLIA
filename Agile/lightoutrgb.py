@@ -34,7 +34,7 @@ def create_domain():
     )
     (:action CLICK
         :parameters(?x - line ?y - column)
-        :precondition(normal ?x - line ?y - column)
+        :precondition(normal ?x ?y)
         :effect(and
             (forall (?w - line)(and
                 (forall (?q - column)(and
@@ -69,7 +69,7 @@ def create_domain():
 
     (:action CLICKV
         :parameters(?x - line ?y - column)
-        :precondition(vertical ?x - line ?y - column)
+        :precondition(vertical ?x ?y)
         :effect(and
             (forall (?w - line)(and
                 (forall (?q - column)(and
@@ -104,7 +104,7 @@ def create_domain():
 
     (:action CLICKH
         :parameters(?x - line ?y - column)
-        :precondition(horizontal ?x - line ?y - column)
+        :precondition(horizontal ?x ?y)
         :effect(and
             (forall (?w - line)(and
                 (forall (?q - column)(and
@@ -139,7 +139,7 @@ def create_domain():
 
     (:action ATCLICK
         :parameters(?x - line ?y - column)
-        :precondition(at-click ?x - line ?y - column)
+        :precondition(at-click ?x ?y)
         :effect(and
             (forall (?w - line)(and
                 (forall (?q - column)(and
@@ -174,7 +174,7 @@ def create_domain():
 
     (:action ONCLICK
         :parameters(?x -line ?y - column)
-        :precondition(on-click ?x - line ?y - column)
+        :precondition(on-click ?x ?y)
         :effect(and
             (forall (?w - line)(and
                 (forall (?q - column)(and
@@ -200,7 +200,7 @@ def create_domain():
         )
     )
 
-)                             
+)                 
 """
     with open("domainLO.pddl", "w") as file:
         file.write(domain_text.strip())
@@ -256,18 +256,28 @@ def create_problem(matrix):
         file.write("\n\t)\n\t")
  
         #goal
-        file.write("(:goal (and")
-        for x, row in enumerate(matrix):
-            for y, cell in enumerate(row):
-                file.write(f"\n\t\t(white x{x} y{y})")
-        file.write(")\n\t)\n)")
+        goal_text="""
+	(:goal (forall (?w - line)(and
+                (forall (?q - column)(and
+                    (white ?w ?q)
+                ))
+            ))
+	)
+)
+"""
+        file.write(goal_text.strip())
+        # file.write("(:goal (and")
+        # for x, row in enumerate(matrix):
+        #     for y, cell in enumerate(row):
+        #         file.write(f"\n\t\t(white x{x} y{y})")
+        # file.write(")\n\t)\n)")
 
 def call_planner():
     #MOJ
-    #planner_path = '/tmp/dir/software/planners/madagascar/M'
+    planner_path = '/tmp/dir/software/planners/madagascar/M'
     
     #Chococino
-    planner_path = '/home/software/planners/madagascar/M'
+    #planner_path = '/home/software/planners/madagascar/M'
     
     domain_file = 'domainLO.pddl'
     problem_file = 'problemLO.pddl'
