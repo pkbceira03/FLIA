@@ -5,8 +5,6 @@ def read_matrix_from_input():
     while True:
         try:
             line = input()
-            if line == 'EOF':
-                break
             row = [line[i:i+2] for i in range(0, len(line), 2)]
             matrix.append(row)
         except EOFError:
@@ -69,6 +67,7 @@ def create_domain():
 
 )            
 """
+
     with open("domainLO.pddl", "w") as file:
         file.write(domain_text.strip())
 
