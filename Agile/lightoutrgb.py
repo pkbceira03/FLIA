@@ -1,15 +1,16 @@
-import sys
 import subprocess
-import os
 
 def read_matrix_from_input():
     matrix = []
     while True:
-        line = input().strip()
-        if not line or line == 'EOF':
+        try:
+            line = input()
+            if line == 'EOF':
+                break
+            row = [line[i:i+2] for i in range(0, len(line), 2)]
+            matrix.append(row)
+        except EOFError:
             break
-        row = [line[i:i+2] for i in range(0, len(line), 2)]
-        matrix.append(row)
     return matrix
 
 def create_domain():
@@ -132,11 +133,6 @@ def create_problem(matrix):
 )
 """
         file.write(goal_text.strip())
-        # file.write("(:goal (and")
-        # for x, row in enumerate(matrix):
-        #     for y, cell in enumerate(row):
-        #         file.write(f"\n\t\t(white x{x} y{y})")
-        # file.write(")\n\t)\n)")
 
 def call_planner():
     #MOJ
@@ -150,7 +146,7 @@ def call_planner():
     
     command = f'{planner_path} -Q -o out {domain_file} {problem_file}'
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True, timeout=29)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True, timeout=30)
         return result.stdout
     except subprocess.TimeoutExpired as e:
         return exit(1)
