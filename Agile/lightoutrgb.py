@@ -135,17 +135,18 @@ def create_problem(matrix):
 
 def call_planner():
     #MOJ
-    #planner_path = '/tmp/dir/software/planners/madagascar/M'
+    planner_path = '/tmp/dir/software/planners/madagascar/M'
     
     #Chococino
-    planner_path = '/home/software/planners/madagascar/M'
+    # planner_path = '/home/software/planners/madagascar/M'
     
     domain_file = 'domainLO.pddl'
     problem_file = 'problemLO.pddl'
     
     command = f'{planner_path} -Q -o out {domain_file} {problem_file}'
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True, timeout=30)
+        with open("out", "w") as outfile:
+            result = subprocess.run(command, shell=True, stdout=outfile, text=True, check=True, timeout=30)
         return result.stdout
     except subprocess.TimeoutExpired as e:
         return exit(1)
@@ -153,7 +154,7 @@ def call_planner():
         print(f"Erro ao chamar o planejador: {e.stderr}")
         return None
 
-def process_output(output):
+def process_output():
     with open ("out",  "r") as file:
         lines = file.readlines()
         click= []
@@ -172,8 +173,8 @@ def main():
     matrix = read_matrix_from_input()
     create_domain()
     create_problem(matrix)
-    result = call_planner()
-    process_output(result)
+    call_planner()
+    process_output()
 
 
 if __name__ == "__main__":
