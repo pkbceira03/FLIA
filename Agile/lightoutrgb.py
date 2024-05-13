@@ -1,5 +1,6 @@
 import subprocess
 
+
 def read_matrix_from_input():
     matrix = []
     while True:
@@ -135,10 +136,10 @@ def create_problem(matrix):
 
 def call_planner():
     #MOJ
-    planner_path = '/tmp/dir/software/planners/madagascar/M'
+    #planner_path = '/tmp/dir/software/planners/madagascar/M'
     
     #Chococino
-    # planner_path = '/home/software/planners/madagascar/M'
+    planner_path = '/home/software/planners/madagascar/M'
     
     domain_file = 'domainLO.pddl'
     problem_file = 'problemLO.pddl'
@@ -160,11 +161,11 @@ def process_output():
         click= []
         for line in lines:
             parts = line.split()
-            # print(parts)
-            x = parts[3].replace("x", "")
-            y = parts[4].replace("y", "")
-            y = y.replace(")", "")
-            click.append(f"(click {x} {y})")
+            if len(parts) == 5 and parts[2] == '(click':
+                x = parts[3].replace("x", "")
+                y = parts[4].replace("y", "")
+                y = y.replace(")", "")
+                click.append(f"(click {x} {y})")
         
         formatted_output = ";".join(click)
         print(formatted_output)
