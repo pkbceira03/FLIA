@@ -1,5 +1,6 @@
 import subprocess
-
+import sys
+import os
 
 def read_matrix_from_input():
     matrix = []
@@ -69,8 +70,8 @@ def create_domain():
 )            
 """
 
-    with open("domainLO.pddl", "w") as file:
-        file.write(domain_text.strip())
+    with open ("domainLO.pddl", "w") as file:
+        file.write(domain_text)
 
 def create_problem(matrix):
     with open ("problemLO.pddl", "w") as file:
@@ -141,34 +142,31 @@ def call_planner():
     #Chococino
     planner_path = '/home/software/planners/madagascar/M'
     
-    domain_file = 'domainLO.pddl'
-    problem_file = 'problemLO.pddl'
-    
-    command = f'{planner_path} -Q -o out {domain_file} {problem_file}'
+    command = f'{planner_path} -S 1 -Q -o out domainLO.pddl problemLO.pddl > /dev/null 2>&1'
     try:
-        with open("out", "w") as outfile:
-            result = subprocess.run(command, shell=True, stdout=outfile, text=True, check=True, timeout=30)
-        return result.stdout
+        subprocess.run(command, shell=True, check=True, timeout=30)
     except subprocess.TimeoutExpired as e:
-        return exit(1)
+        sys.exit(1)
     except subprocess.CalledProcessError as e:
         print(f"Erro ao chamar o planejador: {e.stderr}")
         return None
 
 def process_output():
-    with open ("out",  "r") as file:
-        lines = file.readlines()
-        click= []
-        for line in lines:
-            parts = line.split()
-            if len(parts) == 5 and parts[2] == '(click':
-                x = parts[3].replace("x", "")
-                y = parts[4].replace("y", "")
-                y = y.replace(")", "")
-                click.append(f"(click {x} {y})")
-        
-        formatted_output = ";".join(click)
+    try:
+        with open ("out",  "r") as file:
+            lines = file.readlines()
+            click= []
+            for line in lines:
+                parts = line.split()
+                if len(parts) == 5 and parts[2] == '(click':
+                    x = parts[3].replace("x", "")
+                    y = parts[4].replace("y", "")
+                    y = y.replace(")", "")
+                    click.append(f"(click {x} {y})")
+            formatted_output = ";".join(click)
         print(formatted_output)
+    except FileNotFoundError:
+        sys.exit(1)
 
 def main():
     matrix = read_matrix_from_input()
@@ -176,7 +174,6 @@ def main():
     create_problem(matrix)
     call_planner()
     process_output()
-
 
 if __name__ == "__main__":
     main()
