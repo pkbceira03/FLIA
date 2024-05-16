@@ -144,7 +144,7 @@ def call_planner():
     
     command = f'{planner_path} -S 1 -Q -o out domainLO.pddl problemLO.pddl > /dev/null 2>&1'
     try:
-        subprocess.run(command, shell=True, check=True, timeout=30)
+        subprocess.run(command, shell=True, check=True, timeout= 30)
     except subprocess.TimeoutExpired as e:
         sys.exit(1)
     except subprocess.CalledProcessError as e:
