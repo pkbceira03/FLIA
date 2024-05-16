@@ -140,9 +140,12 @@ def call_planner():
     #planner_path = '/tmp/dir/software/planners/madagascar/M'
     
     #Chococino
+    #Madagascar
     planner_path = '/home/software/planners/madagascar/M'
+    #lama-first
+    #planner_path = '/home/software/planners/downard/M'
     
-    command = f'{planner_path} -S 1 -Q -o out domainLO.pddl problemLO.pddl > /dev/null 2>&1'
+    command = f'{planner_path} -S 1 -P 1 -B 0.1 -Q -o out domainLO.pddl problemLO.pddl > /dev/null 2>&1'
     try:
         subprocess.run(command, shell=True, check=True, timeout=30)
     except subprocess.TimeoutExpired as e:
